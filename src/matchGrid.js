@@ -1,133 +1,131 @@
-import { Card } from './card.js';
-import { StatsContainer } from './statsContainer.js';
-import { currentModal } from './modal.js';
+import { Card } from './card.js'
+import { StatsContainer } from './statsContainer.js'
+import { currentModal } from './modal.js'
 
-const gameContainer = document.querySelector('.game-container');
+const gameContainer = document.querySelector('.game-container')
 
 class MatchGrid {
-    constructor({ columnsNumber, rowsNumber, timeLimit }) {
-        this.rowsNumber = rowsNumber;
-        this.columnsNumber = columnsNumber;
-        this.timeLimit = timeLimit;
+  constructor ({ columnsNumber, rowsNumber, timeLimit }) {
+    this.rowsNumber = rowsNumber
+    this.columnsNumber = columnsNumber
+    this.timeLimit = timeLimit
 
-        this.winCount = 0;
-        this.activeCardListIdx = null;
-        this.statsContainer = new StatsContainer(timeLimit, this.endGame);
+    this.winCount = 0
+    this.activeCardListIdx = null
+    this.statsContainer = new StatsContainer(timeLimit, this.endGame)
 
-        this.createGrid(rowsNumber, columnsNumber);
+    this.createGrid(rowsNumber, columnsNumber)
+  }
+
+  set activeCard (listIdx) {
+    if (!this.activeCardListIdx) {
+      this.activeCardListIdx = listIdx
+    } else if (this.activeCardListIdx !== listIdx) {
+      this.compareCards(this.activeCardListIdx, listIdx)
+      this.activeCardListIdx = null
     }
+  }
 
-    set activeCard(listIdx) {
-        if (!this.activeCardListIdx) {
-            this.activeCardListIdx = listIdx;
-        } else if (this.activeCardListIdx !== listIdx) {
-            this.compareCards(this.activeCardListIdx, listIdx);
-            this.activeCardListIdx = null;
-        }
-    }
-
-    endGame = (isUserWon) => {
-        currentModal.isOpen = {
-            val: true,
-            description: `<div>Moves: ${this.statsContainer.movesCount}</div>
+  endGame = (isUserWon) => {
+    currentModal.isOpen = {
+      val: true,
+      description: `<div>Moves: ${this.statsContainer.movesCount}</div>
             <div>Time: ${this.statsContainer.getTime}</div>`,
-            isUserWon,
-        };
-        this.removeEventListeners();
-        this.statsContainer.clearTimers();
-    };
-
-    compareCards(firstListIdx, secondListIdx) {
-        this.statsContainer.movesCount += 1;
-
-        if (this._cells[firstListIdx].idx === this._cells[secondListIdx].idx) {
-            this._cells[firstListIdx].matched = true;
-            this._cells[secondListIdx].matched = true;
-            this.winCount += 1;
-
-            if (this.winCount === this._cells.length / 2) {
-                this.endGame(true);
-            }
-        } else {
-            setTimeout(() => {
-                this._cells[firstListIdx].flipped = false;
-                this._cells[secondListIdx].flipped = false;
-            }, 600);
-        }
+      isUserWon
     }
+    this.removeEventListeners()
+    this.statsContainer.clearTimers()
+  }
 
-    handleClick = (evt) => {
-        const listIdx = evt.target.parentNode.getAttribute('data-cell-idx');
-        const isFlipped =
-            evt.target.parentNode.classList.contains('card-flipped');
-        if (listIdx && !isFlipped) {
-            this._cells[listIdx].flipped = true;
-            this.activeCard = listIdx;
-        }
-    };
+  compareCards (firstListIdx, secondListIdx) {
+    this.statsContainer.movesCount += 1
 
-    handleLeave = () => {
-        app.classList.add('wrapper--on-pause');
-        this.statsContainer.clearTimers();
-    };
+    if (this._cells[firstListIdx].idx === this._cells[secondListIdx].idx) {
+      this._cells[firstListIdx].matched = true
+      this._cells[secondListIdx].matched = true
+      this.winCount += 1
 
-    handleMouseEnter = () => {
-        app.classList.remove('wrapper--on-pause');
-        this.statsContainer.startTimers();
-    };
+      if (this.winCount === this._cells.length / 2) {
+        this.endGame(true)
+      }
+    } else {
+      setTimeout(() => {
+        this._cells[firstListIdx].flipped = false
+        this._cells[secondListIdx].flipped = false
+      }, 600)
+    }
+  }
 
-    addEventListeners = () => {
-        gameContainer.addEventListener('click', this.handleClick);
-        window.addEventListener('blur', this.handleLeave);
-        window.addEventListener('focus', this.handleMouseEnter);
-    };
+  handleClick = (evt) => {
+    const listIdx = evt.target.parentNode.getAttribute('data-cell-idx')
+    const isFlipped = evt.target.parentNode.classList.contains('card-flipped')
+    if (listIdx && !isFlipped) {
+      this._cells[listIdx].flipped = true
+      this.activeCard = listIdx
+    }
+  }
 
-    removeEventListeners = () => {
-        gameContainer.removeEventListener('click', this.handleClick);
-        window.removeEventListener('blur', this.handleLeave);
-        window.removeEventListener('focus', this.handleMouseEnter);
-    };
+  handleLeave = () => {
+    app.classList.add('wrapper--on-pause')
+    this.statsContainer.clearTimers()
+  }
 
-    restartGame = (args) => {
-        this.removeEventListeners();
-        this.createGrid(
-            args?.rowsNumber || this.rowsNumber,
-            args?.columnsNumber || this.columnsNumber,
-        );
-        if (args?.timeLimit !== undefined)
-            this.statsContainer.initialTimeLimit = args.timeLimit;
-        this.statsContainer.resetToInitialState();
-        this.winCount = 0;
-        this.activeCardListIdx = null;
-    };
+  handleMouseEnter = () => {
+    app.classList.remove('wrapper--on-pause')
+    this.statsContainer.startTimers()
+  }
 
-    createGrid = (rowsNumber, columnsNumber) => {
-        gameContainer.innerHTML = ``;
-        gameContainer.style.gridTemplateRows = `repeat(${rowsNumber}, 1fr)`;
-        gameContainer.style.gridTemplateColumns = `repeat(${columnsNumber}, 1fr)`;
+  addEventListeners = () => {
+    gameContainer.addEventListener('click', this.handleClick)
+    window.addEventListener('blur', this.handleLeave)
+    window.addEventListener('focus', this.handleMouseEnter)
+  }
 
-        const ids = [
-            ...Array(Math.floor((rowsNumber * columnsNumber) / 2)).keys(),
-        ];
+  removeEventListeners = () => {
+    gameContainer.removeEventListener('click', this.handleClick)
+    window.removeEventListener('blur', this.handleLeave)
+    window.removeEventListener('focus', this.handleMouseEnter)
+  }
 
-        const cellIds = [...ids, ...ids];
+  restartGame = (args) => {
+    this.removeEventListeners()
+    this.createGrid(
+      args?.rowsNumber || this.rowsNumber,
+      args?.columnsNumber || this.columnsNumber
+    )
+    if (args?.timeLimit !== undefined) {
+      this.statsContainer.initialTimeLimit = args.timeLimit
+    }
+    this.statsContainer.resetToInitialState()
+    this.winCount = 0
+    this.activeCardListIdx = null
+  }
 
-        const cells = Array.from({ length: cellIds.length }, (_, idx) => {
-            const randomIdx = Math.floor(Math.random() * cellIds.length);
+  createGrid = (rowsNumber, columnsNumber) => {
+    gameContainer.innerHTML = ''
+    gameContainer.style.gridTemplateRows = `repeat(${rowsNumber}, 1fr)`
+    gameContainer.style.gridTemplateColumns = `repeat(${columnsNumber}, 1fr)`
 
-            const cardNode = document.createElement('div');
-            const card = new Card(cellIds[randomIdx] + 1, idx, cardNode);
+    const ids = [...Array(Math.floor((rowsNumber * columnsNumber) / 2)).keys()]
 
-            gameContainer.appendChild(card.generate());
-            cellIds.splice(randomIdx, 1);
-            return card;
-        });
+    const cellIds = [...ids, ...ids]
 
-        this._cells = cells;
-        this.statsContainer.renderMovesCount();
-        this.statsContainer.startTimers();
-        this.addEventListeners();
-    };
+    const cells = Array.from({ length: cellIds.length }, (_, idx) => {
+      const randomIdx = Math.floor(Math.random() * cellIds.length)
+
+      const cardNode = document.createElement('div')
+      const card = new Card(cellIds[randomIdx] + 1, idx, cardNode)
+
+      gameContainer.appendChild(card.generate())
+      cellIds.splice(randomIdx, 1)
+      return card
+    })
+
+    this._cells = cells
+    this.statsContainer.renderMovesCount()
+    this.statsContainer.startTimers()
+    this.addEventListeners()
+  }
 }
 
-export { MatchGrid };
+export { MatchGrid }
