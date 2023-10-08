@@ -3,6 +3,7 @@ import { StatsContainer } from './statsContainer.js';
 import { currentModal } from './modal.js';
 
 const gameContainer = document.querySelector('.game-container');
+const app = document.getElementById('app');
 
 class MatchGrid {
     constructor({ columnsNumber, rowsNumber, timeLimit }) {
@@ -90,10 +91,16 @@ class MatchGrid {
 
     restartGame = (args) => {
         this.removeEventListeners();
+        if (args?.rowsNumber && args?.columnsNumber) {
+            this.rowsNumber = args.rowsNumber;
+            this.columnsNumber = args.columnsNumber;
+        }
+
         this.createGrid(
             args?.rowsNumber || this.rowsNumber,
             args?.columnsNumber || this.columnsNumber,
         );
+
         if (args?.timeLimit !== undefined)
             this.statsContainer.initialTimeLimit = args.timeLimit;
         this.statsContainer.resetToInitialState();
@@ -102,7 +109,7 @@ class MatchGrid {
     };
 
     createGrid = (rowsNumber, columnsNumber) => {
-        gameContainer.innerHTML = ``;
+        gameContainer.innerHTML = '';
         gameContainer.style.gridTemplateRows = `repeat(${rowsNumber}, 1fr)`;
         gameContainer.style.gridTemplateColumns = `repeat(${columnsNumber}, 1fr)`;
 

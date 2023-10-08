@@ -26,7 +26,7 @@ startButton.addEventListener('click', () => {
     promoHero.classList.add('hide');
 
     const timeLimitValue =
-        +timeLimit.value !== 0
+        Number(timeLimit.value) !== 0
             ? { minutes: timeLimit.value, seconds: 1 }
             : null;
 

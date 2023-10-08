@@ -1,5 +1,5 @@
 const moves = document.getElementById('moves-count');
-const timeLimit = document.getElementById('time-remaining');
+const timeLimitBlock = document.getElementById('time-remaining');
 const timeValue = document.getElementById('time');
 
 class StatsContainer {
@@ -16,17 +16,17 @@ class StatsContainer {
         return this.currentMovesCount;
     }
 
+    set movesCount(num) {
+        this.currentMovesCount = num;
+        this.renderMovesCount();
+    }
+
     get getTime() {
         return this.formatTime(this.time);
     }
 
     set initialTimeLimit(val) {
         this.initialLimit = val;
-    }
-
-    set movesCount(num) {
-        this.currentMovesCount = num;
-        this.renderMovesCount();
     }
 
     formatTime = (time) => {
@@ -78,9 +78,9 @@ class StatsContainer {
 
         if (this.timeLimit) {
             const timeLimitValue = this.formatTime(this.timeLimit);
-            timeLimit.innerHTML = `<span>Time Remaining:</span>${timeLimitValue}`;
+            timeLimitBlock.innerHTML = `<span>Time Remaining:</span>${timeLimitValue}`;
         } else {
-            timeLimit.innerHTML = '';
+            timeLimitBlock.innerHTML = '';
         }
     };
 
