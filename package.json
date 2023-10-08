@@ -3,15 +3,18 @@
     "version": "1.0.0",
     "description": "A matching game project",
     "main": "index.js",
+    "homepage": "https://dima-hensetskyi.github.io/memory-card-game",
     "scripts": {
         "start": "webpack serve --open",
-        "build": "webpack"
+        "build": "webpack",
+        "deploy": "npm run build && gh-pages -d dist"
     },
     "keywords": [],
     "author": "Dima Hensetskiy",
     "license": "ISC",
     "devDependencies": {
         "css-loader": "^6.8.1",
+        "gh-pages": "^6.0.0",
         "html-webpack-plugin": "^5.5.3",
         "style-loader": "^3.3.3",
         "webpack": "^5.88.2",

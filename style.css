@@ -332,6 +332,15 @@ input[type='range']:active {
     label {
         font-size: 1em;
     }
+
+    .form-group {
+        align-items: unset;
+        flex-direction: column;
+    }
+
+    .controls-container-settings {
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: 500px) {
