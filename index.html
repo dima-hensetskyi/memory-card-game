@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Memory game</title>
+        <!-- Google Fonts -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+            integrity="sha512-NmLkDIU1C/C88wi324HBc+S2kLhi08PN5GDeUVVVC/BVt/9Izdsc9SVeVfA1UZbY3sHUlDSyRXhCzHfr6hmPPw=="
+            crossorigin="anonymous"
+        />
+    </head>
+    <body>
+        <div id="controls-container" class="controls-container">
+            <h2>Game Settings:</h2>
+            <div class="controls-container-settings">
+                <div class="form-group">
+                    <label for="columns">Number of Columns:</label>
+                    <output>4</output>
+                    <input
+                        id="columns"
+                        type="range"
+                        min="2"
+                        max="6"
+                        value="4"
+                        step="1"
+                        oninput="this.previousElementSibling.value = this.value"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="rows">Number of Rows:</label>
+                    <output>4</output>
+                    <input
+                        id="rows"
+                        type="range"
+                        min="2"
+                        max="4"
+                        value="4"
+                        step="1"
+                        oninput="this.previousElementSibling.value = this.value"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="rows">Time limit:</label>
+                    <output>0</output>
+                    <input
+                        id="timeLimit"
+                        type="range"
+                        min="0"
+                        max="4"
+                        value="0"
+                        step="1"
+                        oninput="this.previousElementSibling.value = this.value"
+                    />
+                </div>
+                <label>Palette:</label>
+                <div class="form-group-palette">
+                    <div class="form-group-palette-item">
+                        <input
+                            type="radio"
+                            id="theme1"
+                            name="theme"
+                            class="palette-1"
+                            hidden
+                        />
+                        <label id="theme-palette-1" for="theme1">
+                            <span
+                                class="palette-color"
+                                data-name="primary"
+                            ></span>
+                            <span
+                                class="palette-color"
+                                data-name="secondary"
+                            ></span>
+                            <span
+                                class="palette-color"
+                                data-name="regular"
+                            ></span>
+                        </label>
+                    </div>
+                    <div class="form-group-palette-item">
+                        <input
+                            type="radio"
+                            id="theme2"
+                            name="theme"
+                            class="palette-2"
+                            checked
+                            hidden
+                        />
+                        <label id="theme-palette-2" for="theme2">
+                            <span
+                                class="palette-color"
+                                data-name="primary"
+                            ></span>
+                            <span
+                                class="palette-color"
+                                data-name="secondary"
+                            ></span>
+                            <span
+                                class="palette-color"
+                                data-name="regular"
+                            ></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <button id="start">Start Game</button>
+        </div>
+        <div id="app" class="wrapper hide">
+            <div class="stats-container">
+                <div id="moves-count"></div>
+                <div id="time-remaining"></div>
+                <div id="time"></div>
+            </div>
+            <div class="game-container"></div>
+            <div class="actions">
+                <button id="stop">Stop Game</button>
+                <button id="restart">Restart Game</button>
+            </div>
+        </div>
+        <div id="modal-window" class="modal-window hide">
+            <div class="modal-window-content">
+                <h2 id="modal-window-title">You Won!</h2>
+                <div id="modal-window-description"></div>
+                <button id="start-new-game">Start new game</button>
+            </div>
+        </div>
+        <div class="promo-hero">
+            <div id="promo-hero" class="card-container">
+                <div class="card-before">Memory<br />card<br />game</div>
+                <div id="promo-hero-text" class="card-after">3</div>
+            </div>
+        </div>
+    </body>
+</html>
