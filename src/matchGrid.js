@@ -68,19 +68,21 @@ class MatchGrid {
     };
 
     handleLeave = () => {
+        console.log('here out');
         app.classList.add('wrapper--on-pause');
         this.statsContainer.clearTimers();
     };
 
     handleMouseEnter = () => {
+        console.log('here over');
         app.classList.remove('wrapper--on-pause');
         this.statsContainer.startTimers();
     };
 
     addEventListeners = () => {
         gameContainer.addEventListener('click', this.handleClick);
-        app.addEventListener('mouseout', this.handleLeave);
-        app.addEventListener('mouseover', this.handleMouseEnter);
+        app.addEventListener('mouseleave', this.handleLeave);
+        app.addEventListener('mouseenter', this.handleMouseEnter);
         window.addEventListener('blur', this.handleLeave);
         window.addEventListener('focus', this.handleMouseEnter);
     };
@@ -88,6 +90,8 @@ class MatchGrid {
     removeEventListeners = () => {
         gameContainer.removeEventListener('click', this.handleClick);
         window.removeEventListener('blur', this.handleLeave);
+        app.removeEventListener('mouseleave', this.handleLeave);
+        app.removeEventListener('mouseenter', this.handleMouseEnter);
         window.removeEventListener('focus', this.handleMouseEnter);
     };
 
