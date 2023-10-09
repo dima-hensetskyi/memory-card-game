@@ -1,5 +1,5 @@
 # memory-card-game
-[Page]([https://dima-hensetskyi.github.io/memory-card-game/])
+[Page](https://dima-hensetskyi.github.io/memory-card-game/)
 
 
 Brief
