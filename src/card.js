@@ -47,7 +47,7 @@ class Card {
         this.node.innerHTML = `
         <div class="card-before">?</div>
         <div class="card-after">${
-            ((this.isFlipped || this.matched) && this._idx) ?? ''
+            ((this.isFlipped || this.matched) && this._idx) || ''
         }</div>
         `;
     }

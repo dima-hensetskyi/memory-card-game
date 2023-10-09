@@ -79,6 +79,8 @@ class MatchGrid {
 
     addEventListeners = () => {
         gameContainer.addEventListener('click', this.handleClick);
+        app.addEventListener('mouseout', this.handleLeave);
+        app.addEventListener('mouseover', this.handleMouseEnter);
         window.addEventListener('blur', this.handleLeave);
         window.addEventListener('focus', this.handleMouseEnter);
     };
