@@ -68,13 +68,11 @@ class MatchGrid {
     };
 
     handleLeave = () => {
-        console.log('here out');
         app.classList.add('wrapper--on-pause');
         this.statsContainer.clearTimers();
     };
 
     handleMouseEnter = () => {
-        console.log('here over');
         app.classList.remove('wrapper--on-pause');
         this.statsContainer.startTimers();
     };
